@@ -1,5 +1,5 @@
 // import * as React from "react";
-import { useEffect, createRef } from "react";
+import { useLayoutEffect, createRef } from "react";
 import P5 from "p5";
 
 // import Sketch from "react-p5";
@@ -12,7 +12,6 @@ import P5 from "p5";
  *    {offset, gridSize, resolution, octaves, influence}
 */
 function drawCurves(p5, settings) {
-  console.log("p5=",p5._renderer)
 
   p5.beginShape();
   for (let x = 0; x < settings.width; x += (settings.width / settings.gridSize)) {
@@ -38,28 +37,27 @@ function Canvas({ settings }) {
   const sketch = (p) => {
 
     p.setup = () => {
-      console.log("running setup");
 
       p.createCanvas();
       p.resizeCanvas(Number(settings.width), Number(settings.height));
+      p.background(20, 40, 30);
       p.noiseSeed(1);
     };
 
     p.draw = () => {
-      console.log("running draw");
+      drawCurves(p, settings);
 
       p.frameRate(1);
 
-      p.background(20, 40, 30);
-      drawCurves(p, settings);
       p.noLoop();
     };
   };
   const p = new P5(sketch);
 
-  useEffect(() => {
-    drawCurves(p,{settings})
-  }, [settings]);
+  useLayoutEffect(() => {
+    const inst = new P5(sketch, canvasContainer.current)
+    return ()=>inst.remove();
+  }, [canvasContainer,settings]);
 
   return (
     <div ref={canvasContainer}></div>
