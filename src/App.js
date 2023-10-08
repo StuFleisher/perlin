@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 
 import Canvas from './Canvas';
 import PerlinForm from './PerlinForm';
@@ -22,24 +22,26 @@ import PerlinSettings from "./models/models";
 // };
 
 function App() {
-  const [perlinSettings, setPerlinSettings] = useState(new PerlinSettings());
+  // const [perlinSettings, setPerlinSettings] = useState(new PerlinSettings());
+  let perlinSettings = useRef(new PerlinSettings())
 
   // const perlinSettings = new PerlinSettings();
   console.log("app rerender", perlinSettings);
 
   const updateSettings = useCallback((data)=> {
     console.log("updating app settings.", data);
-    let settings= perlinSettings.update(data).duplicate();
-    console.log("new instance", settings);
-    setPerlinSettings(settings);
+    // let settings= perlinSettings.update(data).duplicate();
+    let settings= perlinSettings.current.update(data);
+    // setPerlinSettings(settings);
+    perlinSettings.current = settings
   },[])
 
   return (
     <main>
       <PerlinForm
-        settings={perlinSettings}
+        settings={perlinSettings.current}
         updateParentSettings={updateSettings} />
-      <Canvas settings={perlinSettings} />
+      <Canvas settings={perlinSettings.current} />
     </main>
   );
 

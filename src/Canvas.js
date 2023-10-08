@@ -1,5 +1,5 @@
 // import * as React from "react";
-import { useLayoutEffect, useState, createRef } from "react";
+import { useLayoutEffect, useEffect, useState, createRef } from "react";
 import P5 from "p5";
 import { linear } from "./helpers/helpers";
 
@@ -45,23 +45,26 @@ function drawCurves(p5, settings, useOcatves = true) {
   p5.stroke(255);
   p5.strokeWeight(2);
 
-  for (const coord of generateCoords(p5, settings)){
+  for (const coord of generateCoords(p5, settings)) {
     p5.circle(coord[0], coord[1], 5);
     p5.vertex(coord[0], [coord[1]]);
   }
 
   p5.endShape();
+
+  //TODO: get animation working again
 }
 
 
 function Canvas({ settings }) {
-  console.log("rendering canvas with",settings)
   const canvasContainer = createRef();
-  const [sketchInstance,setSketchInstance] = useState(null);
+  const [sketchInstance, setSketchInstance] = useState(null);
+  console.log("rendering canvas with", sketchInstance, settings);
 
   const sketch = (p) => {
 
     p.setup = () => {
+      console.log("running setup");
       p.createCanvas();
       p.resizeCanvas(Number(settings.width), Number(settings.height));
       p.noiseSeed(99);
@@ -73,6 +76,7 @@ function Canvas({ settings }) {
     };
 
     p.draw = () => {
+      console.log("draw")
       p.clear();
       p.background(20, 40, 30);
 
@@ -83,19 +87,21 @@ function Canvas({ settings }) {
 
   };
 
-  if (!sketchInstance) setSketchInstance(
-    new P5(sketch, canvasContainer.current)
-    )
-  // let sketchInstance = new P5(sketch, canvasContainer.current);
-  // useLayoutEffect(() => {
-  //   let sketchInstance = new P5(sketch, canvasContainer.current);
+  if (!sketchInstance) {
+    console.log("building canvas");
+    setSketchInstance(new P5(sketch, canvasContainer.current));
+  }
 
-  //   return () => sketchInstance.remove();
-  // }, [canvasContainer, settings]);
+  // useEffect(() => {
+  //   let newSketch = new P5(sketch, canvasContainer.current);
+  //   setSketchInstance(newSketch)
+
+  //   return () => newSketch.remove();
+  // }, [settings]);
 
 
   return (
-    <div ref={canvasContainer}></div>
+    <div className="canvas-container" ref={canvasContainer}></div>
   );
 }
 
