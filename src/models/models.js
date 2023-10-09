@@ -3,7 +3,7 @@ const INITIAL_SETTINGS = {
   height: 540,
   margin: 100,
 
-  animationSpeed: 0,
+  animationSpeed: 0.001,
   evolution: 0,
   evolutionStep: .5,
 

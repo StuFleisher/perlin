@@ -36,7 +36,7 @@ function generateCoords(p5, settings, time) {
     let xEvolution = linear(
       x,
       0, settings.width,
-      settings.evolution, settings.evolutionStep * settings.vertexCount
+      settings.evolution, settings.evolution + settings.evolutionStep * settings.vertexCount
     );
 
     //adjust y value per octave
