@@ -7,13 +7,14 @@ const INITIAL_SETTINGS = {
   evolution: 0,
   evolutionStep: .5,
 
-  vertexCount: 20,
+  vertexCount: 4,
   yScale: 1,
 
-  octaves: 0,
+  octaves: 1,
   subScaling: .5,
-  subInfluence: .5,
+  subInfluence: 0,
   subOffset: 0,
+  seed: 1,
 };
 
 class PerlinSettings {
@@ -31,6 +32,7 @@ class PerlinSettings {
     "subScaling",
     "subInfluence",
     "subOffset",
+    "seed"
   ];
 
   constructor(settings = INITIAL_SETTINGS) {

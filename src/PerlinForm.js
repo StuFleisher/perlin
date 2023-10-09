@@ -152,6 +152,15 @@ function PerlinForm({settings, updateParentSettings}){
             onChange={handleChange}/>
         </div>
 
+        <div>
+          <label htmlFor="seed">seed</label>
+          <input
+            name="seed"
+            type="number"
+            value={formData.seed}
+            onChange={handleChange}/>
+        </div>
+
     </form>
   )
 }
