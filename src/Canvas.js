@@ -6,7 +6,7 @@ import { linear } from "./helpers/helpers";
 
 /** generates a set of coordinates using perlin noise to control y value*/
 
-function generateCoords(p5, settings) {
+function generateCoords(p5, settings, time) {
 
   const xVals = new Set();
   //generate x values without duplicates
@@ -26,23 +26,26 @@ function generateCoords(p5, settings) {
   coords.sort((a, b) => a[0] - b[0]);
 
   //generate y values
-  // let currEvolution = settings.evolution;
   for (const coord of coords) {
 
     let x = coord[0];
     let y = settings.midpoint;
+
+    //checks position of x relative to the canvas to determine the correct
+    //value for the noise function
     let xEvolution = linear(
       x,
       0, settings.width,
       settings.evolution, settings.evolutionStep * settings.vertexCount
     );
 
-    //adjust per octave
+    //adjust y value per octave
     for (let i = 0; i <= settings.octaves; i++) {
       const octaveInfluence = (settings.subInfluence ** i);
-      const octaveScale = (settings.subScaling ** i);
 
-      let yNoise = p5.noise(xEvolution + settings.subOffset * octaveScale) - .5;
+      let noiseOffset = xEvolution + (settings.subOffset * i) + time;
+      let yNoise = p5.noise(noiseOffset) - .5;
+      yNoise *= settings.yScale;
       let adjustment = linear(
         yNoise,
         -.5, .5,
@@ -52,12 +55,25 @@ function generateCoords(p5, settings) {
       y += adjustment;
     }
 
-    y *= settings.yScale;
-    // currEvolution += settings.evolutionStep;
     coord.push(y);
   }
 
   return coords;
+}
+
+/** adds a grid line at each vertex (ignoring subsettings) */
+function drawGrid(p5, settings) {
+  for (let x = 0 - settings.spacing;
+    x <= settings.width + settings.spacing;
+    x += settings.spacing) {
+    p5.stroke('rgba(255,255,255,.1)');
+    p5.line(x, 0, x, settings.height);
+  }
+
+  for (let y = 0; y <= settings.height; y+=settings.height*settings.yScale/settings.vertexCount){
+    p5.stroke('rgba(255,255,255,.1)');
+    p5.line(0, y, settings.width, y);
+  }
 }
 
 
@@ -65,22 +81,21 @@ function generateCoords(p5, settings) {
  * using perlin noise to generate y values.
  */
 
-function drawCurves(p5, settings, useOcatves = true) {
-
+function drawCurves(p5, settings) {
+  let timeOffset = p5.frameCount * settings.animationSpeed;
   p5.beginShape();
   p5.noFill();
   p5.stroke(255);
   p5.strokeWeight(2);
-  for (const coord of generateCoords(p5, settings)) {
+  for (const coord of generateCoords(p5, settings, timeOffset)) {
     p5.circle(coord[0], coord[1], 5);
     p5.vertex(coord[0], [coord[1]]);
   }
   p5.endShape();
 
-  p5.stroke('rgba(255,255,255,.1)');
-  p5.line(settings.width / 2, 0, settings.width / 2, settings.height);
+  // p5.line(settings.width / 2, 0, settings.width / 2, settings.height);
+  // p5.stroke('rgba(255,255,255,.1)');
 
-  //TODO: get animation working again
 }
 
 
@@ -108,6 +123,7 @@ function Canvas({ settings }) {
       p.background(20, 40, 30);
 
       drawCurves(p, settings);
+      drawGrid(p, settings);
       // drawCurves(p, settings, false);
 
     };

@@ -61,8 +61,8 @@ function PerlinForm({settings, updateParentSettings}){
         <input
           name="vertexCount"
           type="range"
-            min="1"
-            max="100"
+            min="3"
+            max="30"
           value={formData.vertexCount}
           onChange={handleChange}/>
       </div>
