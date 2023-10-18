@@ -4,6 +4,8 @@ import P5 from "p5";
 import { linear } from "./helpers/helpers";
 
 
+
+
 /** generates a set of coordinates using perlin noise to control y value*/
 
 function generateCoords(p5, settings, time) {
@@ -77,6 +79,7 @@ function drawGrid(p5, settings) {
 }
 
 
+
 /** Given a p5 instance and a set of perlinSettings, draws a bezier curve
  * using perlin noise to generate y values.
  */
@@ -89,12 +92,11 @@ function drawCurves(p5, settings) {
   p5.strokeWeight(2);
   for (const coord of generateCoords(p5, settings, timeOffset)) {
     p5.circle(coord[0], coord[1], 5);
-    p5.vertex(coord[0], [coord[1]]);
+    //FIXME:
+    p5.vertex(coord[0], coord[1]);
+    // p5.curveVertex(coord[0], coord[1]);
   }
   p5.endShape();
-
-  // p5.line(settings.width / 2, 0, settings.width / 2, settings.height);
-  // p5.stroke('rgba(255,255,255,.1)');
 
 }
 

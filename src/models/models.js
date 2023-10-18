@@ -37,7 +37,7 @@ class PerlinSettings {
 
   constructor(settings = INITIAL_SETTINGS) {
     for (const name of this._settingsKeys) {
-      this[name] = settings[name] || INITIAL_SETTINGS[name];
+      this[name] = settings[name];
     }
   }
 
