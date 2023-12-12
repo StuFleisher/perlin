@@ -15,7 +15,6 @@ function PerlinForm({settings, updateParentSettings}){
       ...fData,
       [name]: Number(value),
     }));
-
   }
 
   useEffect(function updateParentSettingsOnChange(){

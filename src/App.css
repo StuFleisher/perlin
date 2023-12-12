@@ -1,5 +1,15 @@
 main {
+  margin:1rem;
+  padding: 1rem;
+  background-color: antiquewhite;
+  border-radius: 10px;
+  width:1fr;
+
   display:flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.Perlin-title {
+  width:100%
 }

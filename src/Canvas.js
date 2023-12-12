@@ -1,5 +1,4 @@
-// import * as React from "react";
-import { useLayoutEffect, useEffect, useState, createRef } from "react";
+import { useState, createRef } from "react";
 import P5 from "p5";
 import { linear } from "./helpers/helpers";
 
@@ -137,16 +136,10 @@ function Canvas({ settings }) {
     setSketchInstance(new P5(sketch, canvasContainer.current));
   }
 
-  // useEffect(() => {
-  //   let newSketch = new P5(sketch, canvasContainer.current);
-  //   setSketchInstance(newSketch)
-
-  //   return () => newSketch.remove();
-  // }, [settings]);
 
 
   return (
-    <div className="canvas-container" ref={canvasContainer}></div>
+    <div id="canvas-container" ref={canvasContainer}></div>
   );
 }
 

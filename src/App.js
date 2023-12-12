@@ -38,10 +38,11 @@ function App() {
 
   return (
     <main>
-      <PerlinForm
-        settings={perlinSettings.current}
-        updateParentSettings={updateSettings} />
-      <Canvas settings={perlinSettings.current} />
+      <div className='Perlin-title'><h1> Perlin Noise Applet</h1></div>
+        <PerlinForm
+          settings={perlinSettings.current}
+          updateParentSettings={updateSettings} />
+        <Canvas settings={perlinSettings.current} />
     </main>
   );
 

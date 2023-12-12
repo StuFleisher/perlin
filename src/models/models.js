@@ -1,5 +1,5 @@
 const INITIAL_SETTINGS = {
-  width: 960,
+  width: 720,
   height: 540,
   margin: 100,
 
